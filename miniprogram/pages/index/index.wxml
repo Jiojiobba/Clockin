@@ -1,3 +1,26 @@
-<!--miniprogram/pages/index/index.wxml-->
-<view>this</view>
-<van-button type="primary">按钮</van-button>
+<view class="container">
+    <view class="title">
+       <text>今日打卡</text>
+    </view>
+
+    <view>
+      <view wx:for="{{totalArr}}" wx:key="total">
+      <!--时间标题-->
+        <view class="time-title" >
+           <text class="timetag">{{item.time}}</text>
+           <view bindtap="changeslect" data-time="{{item.time}}" class='iconfont {{item.select?"icon-up":"icon-down"}}'></view>
+        </view>
+       
+       <view class='{{item.select?"taskTotal":"hidden"}}'>
+            <view wx:for="{{item.task}}" wx:key="*this" class="task" bindtap="Clockin" data-id="{{item.id}}"  >
+            <view class='{{item.isClockin?"clockin iconfont  icon-clockin":"circle"}}' ></view>
+            <text style="font-size:32rpx;">{{item.title}}\n</text>
+            <text style="font-size:28rpx;font-weight:600;">完成{{item.times}}次</text>
+        </view>
+       </view>
+       
+
+      </view>
+    </view>
+
+</view>

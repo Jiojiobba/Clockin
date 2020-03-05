@@ -1,1 +1,61 @@
-/* miniprogram/pages/index/index.wxss */
+
+/* miniprogram/pages/schedule/schedule.wxss */
+page{
+  background-color: white;
+  height: 100%;
+  width: 100%;
+}
+.container{
+  margin: 20rpx;
+}
+.title{
+font-size: 40rpx;
+font-weight: 500;
+margin: 10rpx 0;
+margin-left: 15rpx;
+}
+.time-title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 25rpx 0;
+}
+.timetag{
+  background-color: rgba(242, 238, 235);
+  width: fit-content;
+  border-radius: 8rpx;
+  padding:12rpx 13rpx;
+}
+.taskTotal{
+  display: flex;
+  flex-wrap: wrap;
+}
+.hidden{
+  display: none;
+}
+.task{
+  width:175rpx;
+  /* background-color: sandybrown; */
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+ }
+.circle{
+  width: 105rpx;
+  height: 105rpx;
+  border-radius: 105rpx;
+  background-color: palevioletred;
+  border: 1rpx black solid;
+  margin: 0 auto;
+}
+.clockin{
+    width: 105rpx;
+  height: 105rpx;
+  border-radius: 105rpx;
+  background-color: palevioletred;
+  border: 1rpx black solid;
+  margin: 0 auto;
+  opacity: 0.8;
+}

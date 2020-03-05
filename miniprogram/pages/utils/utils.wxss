@@ -1,0 +1,21 @@
+/* miniprogram/pages/utils/utils.wxss */
+@font-face {
+  font-family: 'iconfont';  /* project id 1664605 */
+  src: url('//at.alicdn.com/t/font_1664605_flamp5bl2yn.eot');
+  src: url('//at.alicdn.com/t/font_1664605_flamp5bl2yn.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1664605_flamp5bl2yn.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1664605_flamp5bl2yn.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1664605_flamp5bl2yn.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1664605_flamp5bl2yn.svg#iconfont') format('svg');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-clockin:before { content: "\e601";font-size: 105rpx;position: relative; top:-3rpx; }
+.icon-down:before{content: "\e659"}
+.icon-up:before { content: "\e658"}
+.icon-calendar:before{content:"\e8b4"}

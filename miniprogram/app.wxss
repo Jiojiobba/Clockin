@@ -1,0 +1,21 @@
+@import "/pages/utils/utils.wxss";
+page{
+  background-color: white;
+  height: 100%;
+  width: 100%;
+}
+.container{
+  margin: 20rpx;
+}
+.title{
+font-size: 40rpx;
+font-weight: 500;
+margin: 10rpx 0;
+margin-left: 15rpx;
+}
+.circle{
+  width: 105rpx;
+  height: 105rpx;
+  border-radius: 105rpx;
+  border: 1rpx black solid;
+}

@@ -1,0 +1,86 @@
+/* miniprogram/pages/addTodo/addTodo.wxss */
+.circle{
+  margin: 0 auto;
+}
+.rename-input{
+  border-radius: 10rpx;
+  background-color: rgba(242, 238, 235);
+  margin: 0 auto;
+  margin-top: 20rpx;
+  margin-bottom: 25rpx;
+  padding: 10rpx;
+  text-align: center;
+}
+.color-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.title-son{
+  font-size: 32rpx;
+  font-weight: 550;
+  margin: 20rpx 0;
+  margin-left: 20rpx;
+}
+.circle-small{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 40rpx;
+  margin: 15rpx;
+}
+.timebox{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+  justify-content: space-between;
+}
+.time{
+  border-radius: 25rpx;
+  border: 2rpx solid black;
+  padding:5rpx 10rpx;
+  margin: 10rpx 5rpx;
+}
+.picker-style{
+border: 1rpx rgb(212,212,212) solid;
+width: 300rpx;
+font-size: 35rpx;
+color: green;
+text-align: center;
+padding: 10rpx;
+border-radius: 10rpx;
+}
+.startendtime{
+  display: inline-block;
+  color: rgb(116, 115, 115);
+  font-size: 30rpx;
+  margin: 10rpx 25rpx;
+  width: 50%;
+}
+picker{
+  width: 45%;
+}
+.icon-calendar:before{margin-left: -35rpx;margin-right: 15rpx;}
+.encourage-input{
+    border-radius: 10rpx;
+  background-color: rgba(242, 238, 235);
+  margin: 0 auto;
+  margin-top: 20rpx;
+  margin-bottom: 25rpx;
+  padding: 10rpx;
+  text-align: center;
+  width: 95%;
+}
+.btn{
+width: 35%;
+height: 80rpx;
+text-align: center;
+line-height: 80rpx;
+color: white;
+font-size: 35rpx;
+}
+.bac-color{
+  background-color: rgb(0, 188, 212);
+  color: white;
+  border: none
+}

@@ -1,0 +1,20 @@
+<!--miniprogram/pages/todoinfor/todoinfor.wxml-->
+<text>miniprogram/pages/todoinfor/todoinfor.wxml</text>
+
+<van-cell-group  wx:if="{{task.title}}">
+  
+       <van-cell
+       title="{{task.title}}"
+       border="{{ false }}"
+       value = "{{task.status === 'in-progress'?'进行中':'已完成'}}"
+        />
+ <van-cell
+ wx:if = "{{task.location}}"
+       title="位置"
+       border="{{ false }}"
+       value = "{{task.location.name}}"
+       icon="location"
+       bind:click="viewLocation"
+        />
+</van-cell-group>
+<image wx:if="{{task.image}}" src="{{task.image}}"></image>

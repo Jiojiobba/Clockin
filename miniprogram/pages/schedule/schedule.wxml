@@ -1,0 +1,24 @@
+<!--miniprogram/pages/schedule/schedule.wxml-->
+
+
+
+<!--miniprogram/pages/index/index.wxml-->
+<view class="plusBtn">
+   <navigator url="../addTodo/addTodo">
+      <van-icon class="plusIcon" name="plus" />
+   </navigator>
+</view>
+<form bindsubmit="onSubmit">
+<input name="title"></input>
+<button form-type='submit'>提交</button>
+</form>
+<view>============================</view>
+
+<van-cell-group>
+  <block wx:for="{{tasks}}" wx:key="key">
+    <navigator url="../todoInfo/todoInfo?id={{item._id}}">
+       <van-cell title="{{item.title}}" />
+    </navigator>
+  </block>
+ 
+</van-cell-group>
