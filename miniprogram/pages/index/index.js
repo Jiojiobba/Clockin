@@ -1,3 +1,7 @@
+import regeneratorUntime from '../utils/runtime.js';
+import Notify from '../../@vant/notify/notify';
+const db = wx.cloud.database();
+const todos = db.collection('todos');
 Page({
 
   /**
@@ -11,114 +15,44 @@ Page({
     minute: null,
     select:true,
     timeArr: ['任意时间', '晨间', '中午', '傍晚', '晚间', '睡前'],
-    totalArr: [{
-      time: '任意时间',
-      select:true,
-      task: [
-        {
-          id: 45454545,
-          title: '睡前刷牙',
-          times: 1,
-          isClockin:true
-        },
-        {
-          id: 52368,
-          title: '睡前刷牙',
-          times: 61,
-          isClockin: false
-
-        },
-        {
-          id: 562,
-          title: '睡前ddsfdsfdf刷牙',
-          times: 101,
-          isClockin: false
-
-        },
-        {
-          id: 9234,
-          title: '睡前刷牙',
-          times: 2,
-          isClockin: true
-
-        },
-        {
-          id: 987126,
-          title: '睡前刷牙',
-          times: 15,
-          isClockin: false
-
-        },
-      ]
-    }, {
-       time: '晨间',
-        select: true,
-      task: [
-        {
-          id: 556898,
-          title: '几张是',
-          times: 1,
-          isClockin: true
-
-        }
-      ]
-    }, {
-        time: '中午',
-        select: true,
-        task: [
-          {
-            id: 987321,
-            title: '红红火火恍恍惚惚',
-            times: 1,
-            isClockin: false
-
-          }
-        ]
-    }, {
-        time: '傍晚',
-        select: true,
-        task: [
-          {
-            id: 316584,
-            title: '的地方大师傅',
-            times: 1,
-            isClockin: true
-
-          }
-        ]
-    }, {
-        time: '晚间',
-        select: true,
-        task: [
-          {
-            id: 3015685,
-            title: '无非都是固定',
-            times: 1,
-            isClockin: true
-
-          }
-        ]
-    }, {
-        time: '睡前',
-        select: true,
-        task: [
-          {
-            id: 931642,
-            title: '嗡嗡嗡',
-            times: 1,
-            isClockin: true
-
-          }
-        ]
-    }]
+    totalArr: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this;
+    that.getAlldata("傍晚");
   },
+  getAlldata: function (e){
+    var that = this;
+    wx.cloud.callFunction({
+      name: 'getAllgoal',
+      data: {
+        daytime:e
+      },
+      complete: res => {
+        if (res.result.data.length) {
+          var temArr = that.data.totalArr;
+          var result = res.result.data
+          var tem = {
+            time: e,
+            select: true,
+            task: result
+          };
+          console.log(tem)
+          that.setData({
+            totalArr: tem
+          })
+        } else {
+        }
+        
+        console.log(res.result.data)
+      }
+    });
+  },
+
   Clockin:function(event){
     console.log(event.currentTarget.dataset.id)
   },
@@ -213,5 +147,107 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+  pageData: {
+    totalArr: [{
+      time: '任意时间',
+      select: true,
+      task: [
+        {
+          id: 45454545,
+          title: '睡前刷牙',
+          times: 1,
+          isClockin: true
+        },
+        {
+          id: 52368,
+          title: '睡前刷牙',
+          times: 61,
+          isClockin: false
+
+        },
+        {
+          id: 562,
+          title: '睡前ddsfdsfdf刷牙',
+          times: 101,
+          isClockin: false
+
+        },
+        {
+          id: 9234,
+          title: '睡前刷牙',
+          times: 2,
+          isClockin: true
+
+        },
+        {
+          id: 987126,
+          title: '睡前刷牙',
+          times: 15,
+          isClockin: false
+
+        },
+      ]
+    }, {
+      time: '晨间',
+      select: true,
+      task: [
+        {
+          id: 556898,
+          title: '几张是',
+          times: 1,
+          isClockin: true
+
+        }
+      ]
+    }, {
+      time: '中午',
+      select: true,
+      task: [
+        {
+          id: 987321,
+          title: '红红火火恍恍惚惚',
+          times: 1,
+          isClockin: false
+
+        }
+      ]
+    }, {
+      time: '傍晚',
+      select: true,
+      task: [
+        {
+          id: 316584,
+          title: '的地方大师傅',
+          times: 1,
+          isClockin: true
+
+        }
+      ]
+    }, {
+      time: '晚间',
+      select: true,
+      task: [
+        {
+          id: 3015685,
+          title: '无非都是固定',
+          times: 1,
+          isClockin: true
+
+        }
+      ]
+    }, {
+      time: '睡前',
+      select: true,
+      task: [
+        {
+          id: 931642,
+          title: '嗡嗡嗡',
+          times: 1,
+          isClockin: true
+
+        }
+      ]
+    }]
+  },
 })

@@ -17,7 +17,8 @@
     "van-button": "@vant/button",
     "van-cell": "@vant/cell",
     "van-cell-group": "@vant/cell-group",
-    "van-icon": "@vant/icon"
+    "van-icon": "@vant/icon",
+    "van-notify":"@vant/notify"
   },
   "sitemapLocation": "sitemap.json",
   "permission": {

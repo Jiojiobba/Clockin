@@ -17,7 +17,7 @@
     <view>
        <view class="title-son" style="margin:10rpx;">在一天的什么时候:</view>
         <view class="timebox">
-          <view class='time "{{time5index == index?"bac-color":""}}" ' wx:for="{{time5}}"wx:key="time5" data-index="{{index}}" bindtap="getColorSelect" data-time="{{item}}">{{item}}</view>
+          <view class='time "{{time5index == index?"bac-color":""}}" ' wx:for="{{time5}}"wx:key="time5" data-index="{{index}}" bindtap="getTimeSelect" data-time="{{item}}">{{item}}</view>
         </view>
     </view>
 <!-- 目标起始时间 -->
@@ -29,12 +29,12 @@
         <text class="startendtime">结束</text>
       </view>
       <view style="display:flex;justify-content:space-between">
-        <picker mode="date" value="{{dateStart}}" start="{{starttime}}" bindchange="bindDateChange" data-timeid="1">
-    <view class="picker">
-      <view class="picker-style iconfont icon-calendar">{{date1}}</view> 
-    </view>
-  </picker>
-    <picker mode="date" value="{{dateEnd}}" start="{{starttime}}" bindchange="bindDateChange" data-timeid="2">
+        <picker mode="date" value="{{date1}}" start="{{starttime1}}" bindchange="bindDateChange" data-timeid="1">
+           <view class="picker">
+             <view class="picker-style iconfont icon-calendar">{{date1}}</view> 
+           </view>
+         </picker>
+    <picker mode="date" value="{{date2}}" start="{{starttime2}}" bindchange="bindDateChange" data-timeid="2">
     <view class="picker">
       <view class="picker-style iconfont icon-calendar">{{date2}}</view> 
     </view>
@@ -49,10 +49,11 @@
 </view>
    <view style="display:flex;justify-content:space-around">
       <button  bindtap="onSubmit" class="btn" style="background-color:rgb(255,0,94)">激活</button>
-      <button  class="btn"  style="background-color:rgb(79,76,94)">取消</button>
+      <button  class="btn"  style="background-color:rgb(79,76,94)" bindtap="cancel">取消</button>
    </view>
 </view>
 
+<van-notify id="van-notify" />
 
 
 <!-- <form bindsubmit="onSubmit" report-submit="{{true}}">

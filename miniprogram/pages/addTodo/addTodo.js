@@ -1,26 +1,39 @@
 // miniprogram/pages/addTodo/addTodo.js
+import regeneratorUntime from '../utils/runtime.js';
+import Notify from '../../@vant/notify/notify';
 const db= wx.cloud.database();
 const todos = db.collection('todos');
 
 Page({
   data: {
-    date1: null,
-    date2: null,
-    goalname: null,
-    encourage:null,
-    daytime5:null,
-    time5index:null,
-    bacColor:'white',
+    date1: '',//开始时间
+    date2: '',//结束时间
+    starttime1:"",
+    starttime2: "",
+    goalname: '',//目标名字
+    encourage:'',//鼓励的话
+    daytime5:'任意时间',//一天的某个时间段
+    time5index:0,
+    today:"",//今天的日期
+    daysum:1,
+    cardArr:[],
+    bacColor:'white',//时间段背景颜色
     time5: ['任意时间', '晨间', '中午', '傍晚', '晚间', '睡前'],
-    color:"rgb(245, 112, 50)",
+    color:"rgb(245, 112, 50)",//主题颜色
     colorArr: ["rgb(245, 112, 50)", 'rgb(242,162,197)','rgb(245, 89, 50)','rgb(112, 178, 216)', 'rgb(112, 216, 207)', ' rgb(114, 152, 233)', 'rgb(198, 252, 177)', ' rgb(231, 177, 252)', 'rgb(252, 177, 177)', 'rgb(240, 58, 58)', 'rgb(168, 236, 10)', 'rgb(250, 199, 31)', 'rgb(226, 215, 178)', 'rgb(178, 226, 226)', 'rgb(140, 192, 226)', 'rgb(91, 93, 211)', 'rgb(136, 137, 201)', 'rgb(130, 24, 218', 'rgb(163, 24, 218)', 'rgb(235, 186, 222)', 'rgb(240, 135, 212)', 'rgb(245, 28, 187)', 'rgb(245, 28, 111)', 'rgb(247, 109, 162)', 'rgb(245, 183, 50)', 'rgb(245, 154, 50)','rgb(232, 245, 50)']
-  },
-  pageData:{
-    locationObj:{}
   },
   onLoad: function (options) {
     var that = this;
-    that.getNowTime();
+   that.getNowTime().then(res=>{
+     that.setData({
+       starttime1: res,
+       starttime2: res,
+       date1: res,
+       date2: res,
+       today: res,
+     });
+   });
+   
   },
   // 获取激励自己的话
   getEncourage:function(e){
@@ -30,7 +43,7 @@ Page({
     });
   },
   // 获取目标名称
-  getGoalname:function(e){
+  getGoalName:function(e){
     var that = this;
     that.setData({
       goalname: e.detail.value
@@ -45,107 +58,182 @@ Page({
     });
   },
   //获取一天的什么时候
-  getColorSelect:function(e){
+  getTimeSelect:function(e){
     var that = this;
     var time = e.currentTarget.dataset.time;
     var index = e.currentTarget.dataset.index;
-
     that.setData({
       daytime5:time,
       time5index:index
     });
   },
-  // callFunctionAddtodos:function(){
-  //   console.log("button is click");
-  //   wx.cloud.callFunction({
-  //     name:"addTodo"
-  //   }).then(console.log)
-  // },
-  onSubmit: function (event) {
-    var that = this;
-    var temdata = {
-      name: that.data.goalname,
-      color: that.data.color,
-      daytime: that.data.daytime5,
-      start: that.data.date1,
-      end: that.data.date2,
-      encourage: that.data.encourage,
-    };
-    console.log(temdata)
-    // wx.cloud.callFunction({
-    //   name: 'addTodo',
-    //   data: temdata,
-    //   complete: res => {
-    //     console.log('callFunction test result: ', res)
-    //   }
-    // })
-    // let myDate = new Date;
-    // let month = myDate.getMonth() + 1;
-    // let day = myDate.getDate();
-    // let year = myDate.getFullYear();
-    // let time = `${year}-${month}-${day} ${this.data.time}`;
-    // todos.add({
-    //   data: {
-    //     title: event.detail.value.title,
-    //     image: this.data.image,
-    //     location: this.pageData.locationObj,
-    //     time: time,
-    //     formId: event.detail.formId,
-    //     status: 'in-progress'
-    //   }
-    // }).then(res => {
-    //   wx.cloud.callFunction({
-    //     name: 'msgMe',
-    //     data: {
-    //       formId: event.detail.formId,
-    //       taskId: res._id
-    //     }
-    //   })
-    //   wx.showToast({
-    //     title: '添加成功',
-    //     icon: 'sucess',
-    //     success: res2 => {
-    //       wx.redirectTo({
-    //         url: `../todoInfo/todoInfo?id=${res._id}`,
-    //       })
-    //     }
 
-    //   })
-    // })
-  },
- 
   // 时间选择器
   bindDateChange: function (e) {
     var that = this;
-    console.log('picker发送选择改变，携带值为', e.detail.value)
+    // console.log('picker发送选择改变，携带值为', e.detail.value)
     let timeid = e.currentTarget.dataset.timeid;
-    if (timeid === '1'){
+    if (timeid === '1') {
       that.setData({
-        date1: e.detail.value
+        date1: e.detail.value,
+        starttime2:e.detail.value,
+        date2:e.detail.value
       })
-    } else if(timeid === '2'){
+
+    } else if (timeid === '2') {
       that.setData({
         date2: e.detail.value
       })
     }
+    
   },
   // 获取现在时间
-  getNowTime:function(e){
+  getNowTime: function (e) {
     var that = this;
     let myDate = new Date;
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
     let year = myDate.getFullYear();
     let date = `${year}-${month}-${day}`;
-    let hour = myDate.getHours();
-    let minute = myDate.getMinutes();
-    let time = `${hour}:${minute}`
-    that.setData({
-      starttime:date,
-      date1:date,
-      date2: date,
+    return new Promise((resolve,reject)=>{
+      resolve(date);
+    });
+  },
+  // 检查目标名字重名
+   checkName:function (e) {
+    var that = this;
+    var temname = that.data.goalname;
+    return new Promise((resolve,reject) =>{
+      if (temname == '') {
+        Notify({
+          background: 'rgb(0, 188, 212)',
+          message: "哼，名字不能为空嗷!",
+          color: "white",
+          duration: 1000
+        });
+        resolve(-1);
+      } else {
+        wx.cloud.callFunction({
+          name: 'checkName',
+          data: {
+            name: temname
+          },
+          complete: res => {
+            if (res.result.data.length) {
+              Notify({
+                background: 'rgb(255,0,94)',
+                message: "已有该目标啦~",
+                color: "white",
+                duration: 1000
+              });
+              resolve(0)
+            } else {
+              resolve(1)
+            }
+          }
+        });
+      }
+     
     })
   },
+  //计算打卡天数
+  calculateDay:function(e){
+    var that = this;
+    var d1 = new Date(that.data.date1.replace(/-/g, "-"));
+    var d2 = new Date(that.data.date2.replace(/-/g, "-"));
+    var dd = parseInt((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24) +1);
+    var temArr = new Array(dd);
+    for (var i = 0; i < dd; i++) {
+      temArr[i] = 0;
+    }
+    that.setData({
+      daysum: dd,
+      cardArr: temArr
+    })
+  },
+  // 添加入库
+  addInfo:function(nowtime){
+    var that = this;
+ var task = [
+   {name: that.data.goalname},
+   { color: that.data.color },
+   { start: that.data.date1 },
+   { end: that.data.date2 },
+   { buildtime: nowtime },
+   { times: 0 },
+   { encourage: that.data.encourage },
+   { daysum: that.data.daysum },
+   { cardArr: that.data.cardArr }
+ ];
+  wx.cloud.callFunction({
+           name: 'addTodo',
+           data: {
+             daytime: that.data.daytime5,
+             select:true,
+             task:task
+           },
+           complete: res => {
+             console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
+           }
+         })
+  },
+  //提交
+  async onSubmit(event) {
+    var that = this;
+    var checkname = -2;//-1为空，0为重复，1可以提交
+    var nowtime = await that.getNowTime();
+    await that.calculateDay();
+    await that.checkName().then(res=>{
+      checkname = res;
+    });
+    if(checkname == 1){
+      that.addInfo2(nowtime);
+      // wx.redirectTo({
+      //   url: '../index/index',
+      // })
+    }
+
+  },
+  cancel:function(e){
+    wx.redirectTo({
+            url: '../index/index',
+          })
+  },
+ 
+deleteAll:function(e){
+   wx.cloud.callFunction({
+        name: 'deleteTodo',
+        data: {},
+        complete: res => {
+          console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
+        }
+      })
+},
+  // 添加入库
+  addInfo2: function (nowtime) {
+    var that = this;
+    wx.cloud.callFunction({
+      name: 'addTodo1',
+      data: {
+        daytime: that.data.daytime5,
+        name: that.data.goalname,
+        color: that.data.color,
+        start: that.data.date1,
+        end: that.data.date2,
+        buildtime: nowtime,
+        times: 0,
+        encourage: that.data.encourage,
+        daysum: that.data.daysum,
+        cardArr: that.data.cardArr 
+      },
+      complete: res => {
+        console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
+      }
+    })
+  },
+
+
+
 
 
 

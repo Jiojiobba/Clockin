@@ -3,19 +3,24 @@ cloud.init()
 const db = cloud.database();
 const todos = db.collection('todos');
 exports.main = async (event, context) => {
-   console.log(event)
    try{
      return await todos.add({
        data:{
-         name: event.name,
-         color: event.color,
          daytime: event.daytime,
-         startend: event.startend,
-         buildtime: event.buildtime,
-         times: event.times,
-         encourage: event.encourage,
+         select: event.select,
+         task: event.task
+        //  name: event.name,
+        //  color: event.color,
+        //  daytime: event.daytime,
+        //  start: event.start,
+        //  end: event.end,
+        //  buildtime: event.buildtime,
+        //  times: event.times,
+        //  encourage: event.encourage,
+        //  daysum: event.daysum,
+        //  cardArr: event.cardArr
        }
-     })} catch(e){
+     }).then()} catch(e){
        console.error(e)
      }
    }
