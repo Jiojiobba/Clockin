@@ -4,7 +4,7 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database();
 const todos = db.collection('todotem');
-// const _=db.command
+const _=db.command
 // 云函数入口函数
 exports.main = async (event, context) => {
   // try {
@@ -13,10 +13,10 @@ exports.main = async (event, context) => {
   //   console.error(e)
   // }
   try {
-    
-    return await todos.where({
-      daytime: event.daytime
+    var result = await todos.where({
+      daytime: event.daytime,
     }).get().then();
+    return result;
   } catch (e) {
     console.error(e)
   }

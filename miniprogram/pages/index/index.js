@@ -2,6 +2,7 @@ import regeneratorUntime from '../utils/runtime.js';
 import Notify from '../../@vant/notify/notify';
 const db = wx.cloud.database();
 const todos = db.collection('todos');
+
 Page({
 
   /**
@@ -14,6 +15,7 @@ Page({
     hour: null,
     minute: null,
     select:true,
+    today:"",
     timeArr: ['任意时间', '晨间', '中午', '傍晚', '晚间', '睡前'],
     totalArr: [],
   },
@@ -21,34 +23,80 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  async onLoad (options) {
     var that = this;
-    that.getAlldata("傍晚");
+    var time = await that.getNowTime().then();
+     await that.setData({
+      today:time
+    })
+    // console.log(that.data.today)
+    for(var i = 0; i < 6; i++){
+      var tem = that.data.timeArr[i]
+      that.getTodayGoal(tem);
+    }
   },
-  getAlldata: function (e){
+  // 获取现在时间
+  getNowTime: function (e) {
     var that = this;
+    let myDate = new Date;
+    let month = myDate.getMonth() + 1;
+    let day = myDate.getDate();
+    let year = myDate.getFullYear();
+    let date = {
+      year:year,
+      month:month,
+      day:day,
+      date: `${year}-${month}-${day}`
+    };
+
+    return new Promise((resolve, reject) => {
+      resolve(date);
+    });
+  },
+  //计算今天是打卡的第几天,检查是否打卡,打卡切换
+  calculateDay: function (e) {
+    var that = this;
+    console.log(that.data.totalArr)
     wx.cloud.callFunction({
-      name: 'getAllgoal',
+      name: 'clockInWhatday',
       data: {
-        daytime:e
+        _id: e,
+        today_year: that.data.today.year,
+        today_month: that.data.today.month,
+        today_day: that.data.today.day,
       },
       complete: res => {
-        if (res.result.data.length) {
-          var temArr = that.data.totalArr;
-          var result = res.result.data
-          var tem = {
-            time: e,
-            select: true,
-            task: result
-          };
-          console.log(tem)
-          that.setData({
-            totalArr: tem
-          })
-        } else {
+       
+      }
+    });
+   
+  },
+  getTodayGoal: function (e){
+    var that = this;
+    wx.cloud.callFunction({
+      name: 'getTodayGoal',
+      data: {
+        daytime:e,
+        today_year:that.data.today.year,
+        today_month: that.data.today.month,
+        today_day: that.data.today.day,
+      },
+      complete: res => {
+        if(res.result.length){
+            var temArr = that.data.totalArr;
+            var result = res.result
+            var tem = {
+              time: e,
+              select: true,
+              number:1,
+              task: result
+            };
+            temArr.push(tem)
+            that.setData({
+              totalArr: temArr
+            });
+          that.calculateDay();
         }
-        
-        console.log(res.result.data)
       }
     });
   },

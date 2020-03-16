@@ -8,6 +8,8 @@ Page({
   data: {
     date1: '',//开始时间
     date2: '',//结束时间
+    startdate:"",
+    enddate:"",
     starttime1:"",
     starttime2: "",
     goalname: '',//目标名字
@@ -15,6 +17,7 @@ Page({
     daytime5:'任意时间',//一天的某个时间段
     time5index:0,
     today:"",//今天的日期
+    todayDate:"",
     daysum:1,
     cardArr:[],
     bacColor:'white',//时间段背景颜色
@@ -26,11 +29,11 @@ Page({
     var that = this;
    that.getNowTime().then(res=>{
      that.setData({
-       starttime1: res,
-       starttime2: res,
-       date1: res,
-       date2: res,
-       today: res,
+       starttime1: res.date,
+       starttime2: res.date,
+       date1: res.date,
+       date2: res.date,
+       today: res.date,
      });
    });
    
@@ -74,15 +77,38 @@ Page({
     // console.log('picker发送选择改变，携带值为', e.detail.value)
     let timeid = e.currentTarget.dataset.timeid;
     if (timeid === '1') {
+      var myDate =  new Date(e.detail.value)
+      let month = myDate.getMonth() + 1;
+      let day = myDate.getDate();
+      let year = myDate.getFullYear();
+      let date = {
+        year: year,
+        month: month,
+        day: day,
+        date: `${year}-${month}-${day}`
+      };
+     console.log(date)
       that.setData({
         date1: e.detail.value,
         starttime2:e.detail.value,
-        date2:e.detail.value
+        date2:e.detail.value,
+        startdate:date
       })
 
     } else if (timeid === '2') {
+      var myDate = new Date(e.detail.value)
+      let month = myDate.getMonth() + 1;
+      let day = myDate.getDate();
+      let year = myDate.getFullYear();
+      let date = {
+        year: year,
+        month: month,
+        day: day,
+        date: `${year}-${month}-${day}`
+      };
       that.setData({
-        date2: e.detail.value
+        date2: e.detail.value,
+        enddate:date
       })
     }
     
@@ -94,7 +120,15 @@ Page({
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
     let year = myDate.getFullYear();
-    let date = `${year}-${month}-${day}`;
+    let date = {
+      year:year,
+      month:month,
+      day:day,
+      date: `${year}-${month}-${day}`
+    };
+    that.setData({
+      todayDate:myDate
+    })
     return new Promise((resolve,reject)=>{
       resolve(date);
     });
@@ -224,7 +258,10 @@ deleteAll:function(e){
         times: 0,
         encourage: that.data.encourage,
         daysum: that.data.daysum,
-        cardArr: that.data.cardArr 
+        cardArr: that.data.cardArr,
+        todayDate:that.data.todayDate,
+        startdate:that.data.startdate,
+        enddate: that.data.enddate,
       },
       complete: res => {
         console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });

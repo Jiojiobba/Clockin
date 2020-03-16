@@ -15,7 +15,10 @@ exports.main = async (event, context) => {
          times: event.times,
          encourage: event.encourage,
          daysum: event.daysum,
-         cardArr: event.cardArr
+         cardArr: event.cardArr,
+         todayDate:event.todayDate,
+         startdate:event.startdate,
+         enddate:event.enddate
       }
     }).then()
   } catch (e) {
