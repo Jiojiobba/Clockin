@@ -25,5 +25,30 @@
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
+  },
+  "tabBar": {
+    "color": "black",
+    "selectedColor": "black",
+    "backgroundColor": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index", 
+        "text": "打卡", 
+        "iconPath": "source/index.png",
+        "selectedIconPath": "source/index-selected.png" 
+      },
+      {
+        "pagePath": "pages/addTodo/addTodo",
+        "text": "列表",
+        "iconPath": "source/two.png",
+        "selectedIconPath": "source/two-selected.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "日志",
+        "iconPath": "source/three.png",
+        "selectedIconPath": "source/three-selected.png"
+      }
+    ]
   }
 }

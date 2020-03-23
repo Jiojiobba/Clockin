@@ -23,86 +23,112 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  async onLoad (options) {
+  async getAlldata (options) {
     var that = this;
-    var time = await that.getNowTime().then();
-     await that.setData({
-      today:time
-    })
-    // console.log(that.data.today)
     for(var i = 0; i < 6; i++){
-      var tem = that.data.timeArr[i]
-      that.getTodayGoal(tem);
+      var tem = that.data.timeArr[i];
+      var gget = await that.getTodayGoal(tem).then();
+       var temArr = that.data.totalArr;
+        temArr.push(gget)
+          that.setData({
+          totalArr: temArr
+        });
     }
+  },
+   async onLoad(options) {
+    var that = this;
+     var time = await that.getNowTime().then();
+      await that.getAlldata();
   },
   // 获取现在时间
   getNowTime: function (e) {
     var that = this;
-    let myDate = new Date;
-    let month = myDate.getMonth() + 1;
-    let day = myDate.getDate();
-    let year = myDate.getFullYear();
-    let date = {
-      year:year,
-      month:month,
-      day:day,
-      date: `${year}-${month}-${day}`
-    };
-
     return new Promise((resolve, reject) => {
+      let myDate = new Date;
+      let month = myDate.getMonth() + 1;
+      let day = myDate.getDate();
+      let year = myDate.getFullYear();
+      let date = {
+        year: year,
+        month: month,
+        day: day,
+        date: `${year}-${month}-${day}`
+      };
+     that.setData({
+        today: date
+      })
       resolve(date);
     });
   },
   //计算今天是打卡的第几天,检查是否打卡,打卡切换
   calculateDay: function (e) {
     var that = this;
-    console.log(that.data.totalArr)
+    var total = that.data.totalArr;
+    console.log(total)
+    for(var i = 0; i < total.length; i++){
+      for(var j = 0; j < total[i].task.length; j++){
+        var temid = total[i].task[j]._id;
+        wx.cloud.callFunction({
+          name: 'clockInWhatday',
+          data: {
+            _id: temid,
+            today_year: that.data.today.year,
+            today_month: that.data.today.month,
+            today_day: that.data.today.day,
+          },
+          complete: res => {
+          }
+        });
+      }
+    }
+    
+  },
+  getTodayGoal: function (e){
+    var that = this;
+    return new Promise((resolve)=>{
+      wx.cloud.callFunction({
+        name: 'getTodayGoal',
+        data: {
+          daytime: e,
+          today_year: that.data.today.year,
+          today_month: that.data.today.month,
+          today_day: that.data.today.day,
+        },
+        complete: res => {
+          if (res.result.length) {
+            var result = res.result;
+            var tem = {
+              time: e,
+              select: true,
+              number: 1,
+              task: result
+            };
+            resolve(tem);
+            // console.log(e,that.data.totalArr)
+            // that.calculateDay();
+          };
+        }
+      });
+
+    })
+   
+  },
+
+  Clockin:function(event){
+    console.log(event.currentTarget.dataset.id)
+    var that = this;
     wx.cloud.callFunction({
-      name: 'clockInWhatday',
+      name: 'clockIn',
       data: {
-        _id: e,
+        _id: event.currentTarget.dataset.id,
         today_year: that.data.today.year,
         today_month: that.data.today.month,
         today_day: that.data.today.day,
       },
       complete: res => {
-       
+        console.log(res)
       }
     });
-   
-  },
-  getTodayGoal: function (e){
-    var that = this;
-    wx.cloud.callFunction({
-      name: 'getTodayGoal',
-      data: {
-        daytime:e,
-        today_year:that.data.today.year,
-        today_month: that.data.today.month,
-        today_day: that.data.today.day,
-      },
-      complete: res => {
-        if(res.result.length){
-            var temArr = that.data.totalArr;
-            var result = res.result
-            var tem = {
-              time: e,
-              select: true,
-              number:1,
-              task: result
-            };
-            temArr.push(tem)
-            that.setData({
-              totalArr: temArr
-            });
-          that.calculateDay();
-        }
-      }
-    });
-  },
-
-  Clockin:function(event){
-    console.log(event.currentTarget.dataset.id)
   },
   changeslect:function(event){
     var name = event.currentTarget.dataset.time;
@@ -196,106 +222,5 @@ Page({
   onShareAppMessage: function () {
 
   },
-  pageData: {
-    totalArr: [{
-      time: '任意时间',
-      select: true,
-      task: [
-        {
-          id: 45454545,
-          title: '睡前刷牙',
-          times: 1,
-          isClockin: true
-        },
-        {
-          id: 52368,
-          title: '睡前刷牙',
-          times: 61,
-          isClockin: false
 
-        },
-        {
-          id: 562,
-          title: '睡前ddsfdsfdf刷牙',
-          times: 101,
-          isClockin: false
-
-        },
-        {
-          id: 9234,
-          title: '睡前刷牙',
-          times: 2,
-          isClockin: true
-
-        },
-        {
-          id: 987126,
-          title: '睡前刷牙',
-          times: 15,
-          isClockin: false
-
-        },
-      ]
-    }, {
-      time: '晨间',
-      select: true,
-      task: [
-        {
-          id: 556898,
-          title: '几张是',
-          times: 1,
-          isClockin: true
-
-        }
-      ]
-    }, {
-      time: '中午',
-      select: true,
-      task: [
-        {
-          id: 987321,
-          title: '红红火火恍恍惚惚',
-          times: 1,
-          isClockin: false
-
-        }
-      ]
-    }, {
-      time: '傍晚',
-      select: true,
-      task: [
-        {
-          id: 316584,
-          title: '的地方大师傅',
-          times: 1,
-          isClockin: true
-
-        }
-      ]
-    }, {
-      time: '晚间',
-      select: true,
-      task: [
-        {
-          id: 3015685,
-          title: '无非都是固定',
-          times: 1,
-          isClockin: true
-
-        }
-      ]
-    }, {
-      time: '睡前',
-      select: true,
-      task: [
-        {
-          id: 931642,
-          title: '嗡嗡嗡',
-          times: 1,
-          isClockin: true
-
-        }
-      ]
-    }]
-  },
 })

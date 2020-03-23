@@ -1,4 +1,5 @@
 const cloud = require('wx-server-sdk')
+//添加任务
 cloud.init()
 const db = cloud.database();
 const todos = db.collection('todotem');

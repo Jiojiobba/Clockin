@@ -1,4 +1,4 @@
-// 云函数入口文件
+//查看是否重名
 const cloud = require('wx-server-sdk')
 
 cloud.init()
