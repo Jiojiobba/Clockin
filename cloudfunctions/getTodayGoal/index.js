@@ -15,6 +15,7 @@ exports.main = async (event, context) => {
   try {
     var result = await todos.where({
       daytime: event.daytime,
+      isEnd: false
     }).get().then();
 
     var temArr = result.data;
@@ -42,6 +43,7 @@ exports.main = async (event, context) => {
               }
             });
             tt.isClockin = res.result.flag;
+            console.log("!@@@@@@@@@@@@",res.result)
             endresult.push(tt);
           }
         }

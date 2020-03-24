@@ -1,0 +1,22 @@
+<!--miniprogram/pages/lists/lists.wxml-->
+<view class="container">
+   <view class="select">
+       <view class="select-son " style="margin-right:5rpx;">进行中</view>
+       <view class=" selected" style="margin-left:5rpx;">已结束</view>
+   </view>
+   <view class="square">
+       <view class="square-son">
+          <view class="circle"></view>
+          <view class="taskname">啊啊啊啊啊啊哦哦哦哦哦哦呃呃呃呃呃反对反对反对反对大大大大大大</view>
+          <view class="number">
+             <view class="number1">330天</view>
+             <view class="number2">共计坚持</view>
+          </view>
+       </view>
+   </view>
+
+
+
+
+
+</view>

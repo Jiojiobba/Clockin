@@ -10,7 +10,7 @@ const _ = db.command;
 // 云函数入口函数
 exports.main = async (event, context) => {
 
-  const number = await cloud.callFunction({
+  const back = await cloud.callFunction({
     name: 'clockInWhatday',
     data: {
       _id: event._id,
@@ -20,33 +20,19 @@ exports.main = async (event, context) => {
     }
     });
   try {
-
-    console.log("!!!!!!!!!!!!!", number);
-    var arr = number.cardArr;
-    console.log("@@@@@@@@@@@@@@@@", arr)
-    console.log("@@@@@@@@@@@@@@@@", arr[number.num])
-
-    // if (arr[number.num] == 0){
-    //   arr[number.num] = 1;
-    // } else { arr[number.num] = 0;}
-   
-    // console.log("@@@@@@@@@@@@@@@@",arr)
-    if (event.isClock == false) {
-      console.log("hhhh")
-      // var b = await todos.doc(event._id).update({
-      //   data: {
-      //     cardArr: arr
-      //   }
-      // });
-    } else if (event.isclock == true) {
-
-    }
-  
-    var c = await todos.doc(event._id).get().then();
-    console.log(c)
-
+    var arr = back.result.cardArr;
+    var number = back.result.num;
+    arr[number] == 0 ? arr[number] = 1 : arr[number] = 0;
+    var b = await todos.doc(event._id).update({
+      data: {
+        cardArr: arr
+      }
+    });
+    return true;
+    // var c = await todos.doc(event._id).get().then();
   } catch (e) {
     console.error(e)
+    return false;
   }
 
 

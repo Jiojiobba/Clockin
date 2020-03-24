@@ -77,6 +77,7 @@ Page({
             today_day: that.data.today.day,
           },
           complete: res => {
+            // console.log(res)
           }
         });
       }
@@ -95,6 +96,7 @@ Page({
           today_day: that.data.today.day,
         },
         complete: res => {
+          console.log(res)
           if (res.result.length) {
             var result = res.result;
             var tem = {
@@ -115,18 +117,26 @@ Page({
   },
 
   Clockin:function(event){
-    console.log(event.currentTarget.dataset.id)
+    console.log(event.currentTarget.dataset.id, event.currentTarget.dataset.clock)
     var that = this;
     wx.cloud.callFunction({
       name: 'clockIn',
       data: {
         _id: event.currentTarget.dataset.id,
+        isClock: event.currentTarget.dataset.clock,
         today_year: that.data.today.year,
         today_month: that.data.today.month,
         today_day: that.data.today.day,
       },
       complete: res => {
         console.log(res)
+        if(res.result) {
+          Notify({ type: 'success', message: '打卡成功啦！' });
+        }else{
+          console.log("hhhhh")
+          Notify({ type: 'success', message: '出错啦！' });
+        }
+        that.getTodayGoal();
       }
     });
   },

@@ -12,7 +12,7 @@
           </view>
        
        <view class='{{item.select?"taskTotal":"hidden"}}'>
-            <view wx:for="{{item.task}}" wx:key="task" class="task" bindtap="Clockin" data-id="{{item._id}}"  >
+            <view wx:for="{{item.task}}" wx:key="task" class="task" bindtap="Clockin" data-id="{{item._id}}" data-clock="{{item.isClockin}}" >
             <view class='{{item.isClockin?"clockin iconfont  icon-clockin":"circle"}}'style="background-color:{{item.color}}" ></view>
             <text style="font-size:32rpx;">{{item.title}}\n</text>
             <text style="font-size:28rpx;font-weight:600;">完成{{item.times}}次</text>

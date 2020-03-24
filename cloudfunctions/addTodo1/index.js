@@ -19,7 +19,8 @@ exports.main = async (event, context) => {
          cardArr: event.cardArr,
          todayDate:event.todayDate,
          startdate:event.startdate,
-         enddate:event.enddate
+         enddate:event.enddate,
+         isEnd:event.isEnd
       }
     }).then()
   } catch (e) {

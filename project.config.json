@@ -85,6 +85,27 @@
 					"pathName": "pages/schedule/schedule",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "lists",
+					"pathName": "pages/lists/lists",
+					"query": "id=02a248c0-b2f1-40ec-a108-23390c6fb0eb",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "diary",
+					"pathName": "pages/diary/diary",
+					"query": "id=02a248c0-b2f1-40ec-a108-23390c6fb0eb",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "details",
+					"pathName": "pages/lists/details/details",
+					"query": "id=02a248c0-b2f1-40ec-a108-23390c6fb0eb",
+					"scene": null
 				}
 			]
 		}

@@ -46,13 +46,10 @@ exports.main = async (event, context) => {
       }
     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {  monArr[2] = 29;}  
     if (startyear % 4 == 0 && startyear % 100 != 0 || startyear % 400 == 0) { monArr2[2] = 29; }
-    console.log("!!!!!!!!!111111111",monArr)
-    console.log("!!!!!!!!!222222222", monArr2)
     for (i = 1; i < month; i++) { sum += monArr[i]; }//整月的天数
     for (j = 1; j < startmonth; j++) { sum2 += monArr2[j]; }
     sum += day;
     sum2 += startday;
-    console.log("@@@@@@@@@sum2,sum1",sum2,sum)
      diff = sum - sum2 ;
     var flag = result.data.cardArr;
     flag = flag[diff];

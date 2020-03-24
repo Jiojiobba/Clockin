@@ -4,7 +4,10 @@
     "pages/todoInfo/todoInfo",
     "pages/addTodo/addTodo",
     "pages/schedule/schedule",
-    "pages/utils/utils"
+    "pages/utils/utils",
+    "pages/lists/lists",
+    "pages/diary/diary",
+    "pages/lists/details/details"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -18,7 +21,7 @@
     "van-cell": "@vant/cell",
     "van-cell-group": "@vant/cell-group",
     "van-icon": "@vant/icon",
-    "van-notify":"@vant/notify"
+    "van-notify": "@vant/notify"
   },
   "sitemapLocation": "sitemap.json",
   "permission": {
@@ -32,13 +35,19 @@
     "backgroundColor": "white",
     "list": [
       {
-        "pagePath": "pages/index/index", 
-        "text": "打卡", 
+        "pagePath": "pages/index/index",
+        "text": "打卡",
         "iconPath": "source/index.png",
-        "selectedIconPath": "source/index-selected.png" 
+        "selectedIconPath": "source/index-selected.png"
       },
       {
         "pagePath": "pages/addTodo/addTodo",
+        "text": "打卡",
+        "iconPath": "source/add.png",
+        "selectedIconPath": "source/add-selected.png"
+      },
+      {
+        "pagePath": "pages/lists/lists",
         "text": "列表",
         "iconPath": "source/two.png",
         "selectedIconPath": "source/two-selected.png"

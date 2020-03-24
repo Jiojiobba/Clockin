@@ -1,0 +1,74 @@
+.container{
+  font-size: 35rpx;
+}
+.select{
+  display: flex;
+  justify-content: space-between;
+}
+.select-son{
+  height: 80rpx;
+  width: 50%;
+  color: black;
+  background-color: white;
+  border-radius: 8rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+.selected{
+  background-color: palevioletred;
+  color: white;
+  height: 80rpx;
+  width: 50%;
+  border-radius: 8rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+.square{
+  width: 100%;
+  margin-top: 10rpx;
+}
+.square-son{
+  width: 100%;
+  position: relative;
+  height: 110rpx;
+  color: black;
+  background-color: rgb(255, 221, 29);
+  border: 3rpx solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.circle{
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 100rpx;
+  /* border: 20rpx solid black; */
+  background-color: black;
+  margin-left: 20rpx;
+}
+
+.taskname{
+  width: 60%;
+  height: 100%;
+  line-height: 57rpx;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  align-content: center;
+}
+.number{
+  margin-right: 20rpx;
+  text-align: center;
+}
+.number1{
+  line-height: 70rpx;
+  font-size: 50rpx;
+}
+.number2{
+  font-size: 25rpx;
+  margin-top: 5rpx;
+}

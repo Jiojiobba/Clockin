@@ -22,8 +22,8 @@ Page({
     cardArr:[],
     bacColor:'white',//时间段背景颜色
     time5: ['任意时间', '晨间', '中午', '傍晚', '晚间', '睡前'],
-    color:"rgb(245, 112, 50)",//主题颜色
-    colorArr: ["rgb(245, 112, 50)", 'rgb(242,162,197)','rgb(245, 89, 50)','rgb(112, 178, 216)', 'rgb(112, 216, 207)', ' rgb(114, 152, 233)', 'rgb(198, 252, 177)', ' rgb(231, 177, 252)', 'rgb(252, 177, 177)', 'rgb(240, 58, 58)', 'rgb(168, 236, 10)', 'rgb(250, 199, 31)', 'rgb(226, 215, 178)', 'rgb(178, 226, 226)', 'rgb(140, 192, 226)', 'rgb(91, 93, 211)', 'rgb(136, 137, 201)', 'rgb(130, 24, 218', 'rgb(163, 24, 218)', 'rgb(235, 186, 222)', 'rgb(240, 135, 212)', 'rgb(245, 28, 187)', 'rgb(245, 28, 111)', 'rgb(247, 109, 162)', 'rgb(245, 183, 50)', 'rgb(245, 154, 50)','rgb(232, 245, 50)']
+    color:"rgb(245, 28, 111)",//主题颜色
+    colorArr: ['rgb(245, 28, 111)',"rgb(245, 112, 50)", 'rgb(242,162,197)','rgb(245, 89, 50)','rgb(112, 178, 216)', 'rgb(112, 216, 207)', ' rgb(114, 152, 233)', 'rgb(198, 252, 177)', ' rgb(231, 177, 252)', 'rgb(252, 177, 177)', 'rgb(240, 58, 58)', 'rgb(168, 236, 10)', 'rgb(250, 199, 31)', 'rgb(226, 215, 178)', 'rgb(178, 226, 226)', 'rgb(140, 192, 226)', 'rgb(91, 93, 211)', 'rgb(136, 137, 201)', 'rgb(130, 24, 218', 'rgb(163, 24, 218)', 'rgb(235, 186, 222)', 'rgb(240, 135, 212)', 'rgb(245, 28, 187)',  'rgb(247, 109, 162)', 'rgb(245, 183, 50)', 'rgb(245, 154, 50)','rgb(232, 245, 50)']
   },
   onLoad: function (options) {
     var that = this;
@@ -185,32 +185,7 @@ Page({
       cardArr: temArr
     })
   },
-  // 添加入库
-  addInfo:function(nowtime){
-    var that = this;
- var task = [
-   {name: that.data.goalname},
-   { color: that.data.color },
-   { start: that.data.date1 },
-   { end: that.data.date2 },
-   { buildtime: nowtime },
-   { times: 0 },
-   { encourage: that.data.encourage },
-   { daysum: that.data.daysum },
-   { cardArr: that.data.cardArr }
- ];
-  wx.cloud.callFunction({
-           name: 'addTodo',
-           data: {
-             daytime: that.data.daytime5,
-             select:true,
-             task:task
-           },
-           complete: res => {
-             console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
-           }
-         })
-  },
+
   //提交
   async onSubmit(event) {
     var that = this;
@@ -243,7 +218,7 @@ deleteAll:function(e){
         }
       })
 },
-  // 添加入库
+  // 添加任务入库
   addInfo2: function (nowtime) {
     var that = this;
     wx.cloud.callFunction({
@@ -262,13 +237,48 @@ deleteAll:function(e){
         todayDate:that.data.todayDate,
         startdate:that.data.startdate,
         enddate: that.data.enddate,
+        isEnd:false
+      },
+      complete: res => {
+        console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
+        that.setData({
+          goalname: '',//目标名字
+          encourage: '',//鼓励的话
+          daytime5: '任意时间',//一天的某个时间段
+          time5index: 0,
+          daysum: 1,
+          color:"rgb(245, 28, 111)",
+          cardArr: [],
+        })
+      }
+    })
+  },
+  // 添加入库
+  addInfo: function (nowtime) {
+    var that = this;
+    var task = [
+      { name: that.data.goalname },
+      { color: that.data.color },
+      { start: that.data.date1 },
+      { end: that.data.date2 },
+      { buildtime: nowtime },
+      { times: 0 },
+      { encourage: that.data.encourage },
+      { daysum: that.data.daysum },
+      { cardArr: that.data.cardArr }
+    ];
+    wx.cloud.callFunction({
+      name: 'addTodo',
+      data: {
+        daytime: that.data.daytime5,
+        select: true,
+        task: task
       },
       complete: res => {
         console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
       }
     })
   },
-
 
 
 

@@ -1,10 +1,10 @@
 <!--miniprogram/pages/addTodo/addTodo.wxml-->
 <view class="container">
-    <view class="title">新的目标</view>
+    <view class="title">新的任务</view>
 <!-- 标题 -->
     <view>
         <view class="circle"  style="background-color:{{color}}"></view>
-        <textarea bindinput="getGoalName" value="{{goalname}}" class="rename-input" auto-height="true"  placeholder-class="input-inside" placeholder="给目标命名"></textarea>
+        <textarea bindinput="getGoalName" value="{{goalname}}" class="rename-input" auto-height="true"  placeholder-class="input-inside" placeholder="给任务命名"></textarea>
     </view>
 <!-- 颜色 -->
     <view>
@@ -20,9 +20,9 @@
           <view class='time "{{time5index == index?"bac-color":""}}" ' wx:for="{{time5}}"wx:key="time5" data-index="{{index}}" bindtap="getTimeSelect" data-time="{{item}}">{{item}}</view>
         </view>
     </view>
-<!-- 目标起始时间 -->
+<!-- 任务起始时间 -->
      <view>
-         <view class="title-son" style="margin:10rpx;">目标起始时间</view>
+         <view class="title-son" style="margin:10rpx;">任务起始时间</view>
     <view class="section">
       <view style="display:flex;justify-content:space-between">
         <text class="startendtime">开始</text>
