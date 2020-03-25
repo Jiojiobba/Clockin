@@ -42,7 +42,7 @@
       },
       {
         "pagePath": "pages/addTodo/addTodo",
-        "text": "打卡",
+        "text": "添加",
         "iconPath": "source/add.png",
         "selectedIconPath": "source/add-selected.png"
       },

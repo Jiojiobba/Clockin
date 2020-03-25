@@ -27,12 +27,13 @@ Page({
     var that = this;
     for(var i = 0; i < 6; i++){
       var tem = that.data.timeArr[i];
-      var gget = await that.getTodayGoal(tem,i).then();
-       var temArr = that.data.totalArr;
+      var gget = await that.getTodayGoal(tem).then();
+      if (gget) {
+        var temArr = that.data.totalArr;
         temArr.push(gget)
-          that.setData({
+        that.setData({
           totalArr: temArr
-        });
+        });}
     }
   },
    async onLoad(options) {
@@ -84,7 +85,7 @@ Page({
     }
     
   },
-  getTodayGoal: function (e, daytimenumber){
+  getTodayGoal: function (e){
     var that = this;
     return new Promise((resolve)=>{
       wx.cloud.callFunction({
@@ -96,7 +97,6 @@ Page({
           today_day: that.data.today.day,
         },
         complete: res => {
-          // console.log(res)
           if (res.result.length) {
             var result = res.result;
             // for(var m = 0; m < result.length; m++){
@@ -112,7 +112,9 @@ Page({
             resolve(tem);
             // console.log(e,that.data.totalArr)
             // that.calculateDay();
-          };
+          }else{
+            resolve(null)
+          }
         }
       });
 

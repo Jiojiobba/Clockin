@@ -12,7 +12,9 @@ const _ = db.command
 exports.main = async (event, context) => {
 
   var endresult = [];//输出结果
-  console.log(event)
+  console.log(event);
+
+try{
   var result = await todos.where({
     daytime: event.daytime,
     isEnd: false
@@ -29,6 +31,7 @@ exports.main = async (event, context) => {
     })
   }
 
+console.log("!!!!!!!!!!result=",result)
   for (var i = 0; i < temArr.length; i++) {
     if (temArr[i].startdate == "") {
       return new Promise((resolve, reject) => {
@@ -79,5 +82,7 @@ exports.main = async (event, context) => {
   return new Promise((resolve, reject) => {
     resolve(endresult);
   })
-
+}catch (e) {
+  console.error(e)
+}
 }

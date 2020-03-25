@@ -198,7 +198,7 @@ Page({
       checkname = res;
     });
     if(checkname == 1){
-      that.addInfo2(nowtime);
+      that.addInfo(nowtime);
       // wx.redirectTo({
       //   url: '../index/index',
       // })
@@ -221,11 +221,11 @@ deleteAll:function(e){
       })
 },
   // 添加任务入库
-  addInfo2: function (nowtime) {
+  addInfo: function (nowtime) {
     var that = this;
     console.log(that.data.startdate,that.data.enddate)
     wx.cloud.callFunction({
-      name: 'addTodo1',
+      name: 'addTodo',
       data: {
         daytime: that.data.daytime5,
         name: that.data.goalname,
@@ -256,34 +256,6 @@ deleteAll:function(e){
       }
     })
   },
-  // 添加入库
-  addInfo: function (nowtime) {
-    var that = this;
-    var task = [
-      { name: that.data.goalname },
-      { color: that.data.color },
-      { start: that.data.date1 },
-      { end: that.data.date2 },
-      { buildtime: nowtime },
-      { times: 0 },
-      { encourage: that.data.encourage },
-      { daysum: that.data.daysum },
-      { cardArr: that.data.cardArr }
-    ];
-    wx.cloud.callFunction({
-      name: 'addTodo',
-      data: {
-        daytime: that.data.daytime5,
-        select: true,
-        task: task
-      },
-      complete: res => {
-        console.log('callFunction test result: ', res); Notify({ type: 'success', message: '添加成功啦！' });
-      }
-    })
-  },
-
-
 
 
 
