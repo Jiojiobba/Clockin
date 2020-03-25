@@ -19,20 +19,36 @@ exports.main = async (event, context) => {
       today_day: event.today_day,
     }
     });
+    const detail = await todos.doc(event._id).get().then();
+  var temtimes = detail.data.times;
+
   try {
     var arr = back.result.cardArr;
     var number = back.result.num;
     arr[number] == 0 ? arr[number] = 1 : arr[number] = 0;
+    arr[number] == 1 ? temtimes += 1 : temtimes-= 1;
+    
     var b = await todos.doc(event._id).update({
       data: {
-        cardArr: arr
+        cardArr: arr,
+        times:temtimes
       }
     });
-    return true;
+    console.log("!!!!!", detail.data.times)
+
+    return new Promise((resolve,reject)=>{
+      var result = {
+        isornot: arr[number],
+        times : temtimes
+      }
+      resolve(result);
+    });
     // var c = await todos.doc(event._id).get().then();
   } catch (e) {
     console.error(e)
-    return false;
+    return new Promise((resolve, reject) => {
+      resolve(false);
+    });
   }
 
 

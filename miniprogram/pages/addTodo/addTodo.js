@@ -34,9 +34,10 @@ Page({
        date1: res.date,
        date2: res.date,
        today: res.date,
+       startdate:res,
+       enddate:res
      });
    });
-   
   },
   // 获取激励自己的话
   getEncourage:function(e){
@@ -92,7 +93,8 @@ Page({
         date1: e.detail.value,
         starttime2:e.detail.value,
         date2:e.detail.value,
-        startdate:date
+        startdate:date,
+        enddate:date
       })
 
     } else if (timeid === '2') {
@@ -221,14 +223,15 @@ deleteAll:function(e){
   // 添加任务入库
   addInfo2: function (nowtime) {
     var that = this;
+    console.log(that.data.startdate,that.data.enddate)
     wx.cloud.callFunction({
       name: 'addTodo1',
       data: {
         daytime: that.data.daytime5,
         name: that.data.goalname,
         color: that.data.color,
-        start: that.data.date1,
-        end: that.data.date2,
+        // start: that.data.date1,
+        // end: that.data.date2,
         buildtime: nowtime,
         times: 0,
         encourage: that.data.encourage,

@@ -4,7 +4,7 @@
     </view>
 
     <view>
-      <view wx:for="{{totalArr}}" wx:key="total">
+      <view wx:for="{{totalArr}}" wx:key="total" wx:for-index="fatherindex">
       <!--时间标题-->
           <view class="time-title" >
              <text class="timetag">{{item.time}}</text>
@@ -12,7 +12,13 @@
           </view>
        
        <view class='{{item.select?"taskTotal":"hidden"}}'>
-            <view wx:for="{{item.task}}" wx:key="task" class="task" bindtap="Clockin" data-id="{{item._id}}" data-clock="{{item.isClockin}}" >
+            <view wx:for="{{item.task}}" wx:key="task" class="task" bindtap="Clockin"
+              data-index="{{index}}" 
+                data-daytime="{{item.daytime}}"
+                 data-id="{{item._id}}"
+                  data-isclockin="{{item.isClockin}}" 
+                   data-times="{{item.times}}" 
+                    data-fatherindex="{{fatherindex}}"  >
             <view class='{{item.isClockin?"clockin iconfont  icon-clockin":"circle"}}'style="background-color:{{item.color}}" ></view>
             <text style="font-size:32rpx;">{{item.title}}\n</text>
             <text style="font-size:28rpx;font-weight:600;">完成{{item.times}}次</text>
@@ -24,3 +30,4 @@
     </view>
 
 </view>
+<van-notify id="van-notify" />
