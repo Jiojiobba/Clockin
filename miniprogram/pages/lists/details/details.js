@@ -1,20 +1,29 @@
 // miniprogram/pages/lists/details/details.js
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    dataArr:null,
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
+    var that = this;
+    that.getdata(options.id);
   },
-
+getdata : function(e){
+  var that = this;
+  wx.cloud.callFunction({
+    name: 'getOneTask',
+    data: {
+      _id:e
+    },
+    complete: res => {
+      var result = res.result.data;
+      that.setData({
+        dataArr:result
+      })
+    }
+  });
+},
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

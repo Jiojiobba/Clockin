@@ -1,7 +1,18 @@
 .container{
   font-size: 35rpx;
 }
-
+.circle{
+  margin: 0 auto;
+}
+.taskName{
+  text-align: center;
+  margin: 15rpx 0;
+  font-weight: 600;
+}
+.encourage{
+  text-align: center;
+  margin-bottom: 20rpx;
+}
 .title{
   /* font-weight: 500; */
   display: flex;

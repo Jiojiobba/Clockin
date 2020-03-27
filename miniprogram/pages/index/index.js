@@ -15,9 +15,12 @@ Page({
     hour: null,
     minute: null,
     select:true,
+    isShowConfirm: false,  //弹窗
+    diarycontent:"",//弹窗内容
     today:"",
     timeArr: ['任意时间', '晨间', '中午', '傍晚', '晚间', '睡前'],
     totalArr: [],
+    diarydata:null
   },
 
   /**
@@ -41,6 +44,7 @@ Page({
      var time = await that.getNowTime().then();
       await that.getAlldata();
   },
+
   // 获取现在时间
   getNowTime: function (e) {
     var that = this;
@@ -65,6 +69,7 @@ Page({
   calculateDay: function (e) {
     var that = this;
     var total = that.data.totalArr;
+    that.getNowTime();
     // console.log(total)
     for(var i = 0; i < total.length; i++){
       for(var j = 0; j < total[i].task.length; j++){
@@ -87,6 +92,7 @@ Page({
   },
   getTodayGoal: function (e){
     var that = this;
+    that.getNowTime();
     return new Promise((resolve)=>{
       wx.cloud.callFunction({
         name: 'getTodayGoal',
@@ -124,17 +130,18 @@ Page({
 
   Clockin:function(event){
     var that = this;
+    that.getNowTime();
 
     // console.log(event.currentTarget.dataset.id, 
     //   event.currentTarget.dataset.isclockin, 
     //  event.currentTarget.dataset.fatherindex, 
     //  event.currentTarget.dataset.index)
-
-    var idd = event.currentTarget.dataset.id;
-    var isClockin = event.currentTarget.dataset.isclockin;
-    var times = event.currentTarget.dataset.times;
-    var fatherindex = event.currentTarget.dataset.fatherindex;
-    var index = event.currentTarget.dataset.index;
+    var temdata = event.currentTarget.dataset;
+    var idd = temdata.id;
+    var isClockin = temdata.isclockin;
+    var times = temdata.times;
+    var fatherindex = temdata.fatherindex;
+    var index = temdata.index;
 //修改图标状态
     var tem = "totalArr[" + fatherindex + "].task[" + index + "].isClockin";
     var cchange = that.data.totalArr[fatherindex].task[index].isClockin;
@@ -160,6 +167,15 @@ Page({
             [tem2] : cchange2
           })
             Notify({ type: 'success', message: '打卡成功啦！', duration: 500 });
+            that.setData({
+              isShowConfirm: true,
+              diarydata:{
+                taskid:idd,
+                buildtime:that.data.today,
+                color: temdata.color,
+                taskname: temdata.taskname,
+              }
+            })
         } else if (res.result.isornot == 0){
           cchange2 -= 1;
           that.setData({
@@ -167,6 +183,7 @@ Page({
             [tem2] : cchange2
           })
             Notify({ type: 'warning', message: '取消打卡！', duration: 500 });
+           
           } else{
             console.log(res)
           Notify({ type: 'danger', message: '出错啦！刷新一下页面噢~' });
@@ -219,6 +236,55 @@ Page({
     this.setData({
       select:!this.data.select
     })
+  },
+//弹窗记录日志内容
+  setValue: function (e) {
+    var that = this;
+    that.setData({
+      diarycontent: e.detail.value
+    });
+  },
+//弹窗取消
+  cancel: function () {
+    var that = this;
+    that.setData({
+      isShowConfirm: false,
+    })
+  },
+//新增日记入库
+  confirmAcceptance:function(e){
+    return;
+  },
+  
+   commitDiary:function (e) {
+    var that = this;
+     let myDate = new Date;
+     var month = (myDate.getMonth() + 1 < 10 ? '0' + (myDate.getMonth() + 1) : myDate.getMonth() + 1);
+     var day = myDate.getDate() < 10 ? '0' + myDate.getDate() : myDate.getDate();  
+     let year = myDate.getFullYear();
+     let hour = myDate.getHours() < 10 ? '0' + myDate.getHours() : myDate.getHours(); 
+     let minutes = myDate.getMinutes() < 10 ? '0' + myDate.getMinutes() : myDate.getMinutes(); 
+     let seconds = myDate.getSeconds() < 10 ? '0' + myDate.getSeconds() : myDate.getSeconds(); 
+     let temid = `${year}${month}${day}${hour}${minutes}${seconds}`;
+     wx.cloud.callFunction({
+      name: 'addDiary',
+      data: {
+        _id: temid,
+        taskid: that.data.diarydata.taskid,//任务id
+        taskname: that.data.diarydata.taskname,//任务名字
+        color: that.data.diarydata.color,//任务颜色
+        buildtime: that.data.today,//日志时间
+        diarycontent: that.data.diarycontent//日志内容
+      },
+      complete: res => {
+        // console.log(res.result._id)
+      }
+    });
+
+    that.setData({
+      isShowConfirm: false,
+    });
+    return;
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

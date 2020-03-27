@@ -4,22 +4,26 @@
       <view class="small-circle"></view>
       <view>打卡统计</view>
    </view>
+   <view>
+       <view class="circle" style="background-color:{{dataArr.color}}"></view>
+       <view class="taskName">{{dataArr.name}}</view>
+       <view class="encourage">激励：{{dataArr.encourage}}</view>
+   </view>
     <view class="box">
       <view class="grey-box">
-          <view class="number">0天</view>
+          <view class="number">{{dataArr.times}}/{{dataArr.daysum}}天</view>
           <view class="name">已打卡</view>
       </view>
       <view class="grey-box">
-           <view class="number">2020.02.24</view>
+           <view class="number">{{dataArr.buildtime.date}}</view>
            <view class="name">建立日期</view>
       </view>
    </view>
 
    <view class="btnAll">
-       <button class=" btn btn-end"> 结束</button>
-       <button class=" btn btn-edit"> 编辑</button>
-       <button class=" btn btn-delete"> 删除</button>
-
+       <button bindtap="endTask"  class=" btn btn-end"> 结束</button>
+       <button bindtap="editTask" class=" btn btn-edit"> 编辑</button>
+       <button bindtap="deleteTask" class=" btn btn-delete"> 删除</button>
    </view>
 
 </view>

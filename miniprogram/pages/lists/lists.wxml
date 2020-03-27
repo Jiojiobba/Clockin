@@ -4,8 +4,8 @@
        <view class='{{tab ? "selected" : "select-son"}}' bindtap="changeTab" data-id="1" style="margin-right:5rpx;">进行中</view>
        <view class='{{tab ? "select-son" : "selected"}}' bindtap="changeTab" data-id="0" style="margin-left:5rpx;">已结束</view>
    </view>
-   <view class="square" wx:for="{{displayArr}}" wx:key="goon">
-       <view class="square-son" style='background-color:{{item.color}}' >
+   <view class="square"  wx:for="{{displayArr}}" wx:key="goon" >
+       <view class="square-son" bindtap="jumpTodetail"  data-id="{{item.id}}" style='background-color:{{item.color}}' >
           <view class="circle"></view>
           <view class="taskname">{{item.name}}</view>
           <view class="number">

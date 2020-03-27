@@ -1,6 +1,5 @@
 <!--miniprogram/pages/addTodo/addTodo.wxml-->
 <view class="container">
-    <view class="title">新的任务</view>
 <!-- 标题 -->
     <view>
         <view class="circle"  style="background-color:{{color}}"></view>

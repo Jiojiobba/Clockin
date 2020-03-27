@@ -16,67 +16,66 @@ Page({
 
   async onLoad (options) {
     var that = this;
-   await that.getGoonTask();
-   await that.getEndTask();
-   await that.setData({
-     displayArr:that.data.GoonArr
-   })
+    var one = await that.getEndTask();
+    var two = await that.getGoonTask();
+    var three = await that.setData({
+      displayArr: two
+    });
+     await console.log(that.data.displayArr)
+    await console.log(one,two)
+
   },
-  //进行中，已经结束替换
-  async changeTab(options){
+  //进行中，已经结束Tab替换
+  changeTab:function(options){
     var that = this;
     if (options.currentTarget.dataset.id == "1"){//进行中
       that.setData({
-        tab:true
-      });
-      await that.getGoonTask();
-      await that.setData({
+        tab:true,
         displayArr:that.data.GoonArr
-      })
+      });
     }else{//已结束
       that.setData({
-        tab: false
-      })
-      await that.getEndTask();
-      await that.setData({
-        displayArr: that.data.EndArr
+        tab: false,
+        displayArr:that.data.EndArr
       })
     }
   },
   //获取已经结束的任务
   getEndTask:function(options){
     var that = this;
-    wx.cloud.callFunction({
-      name: 'getEndTask',
-      data: {},
-      complete: res => {
-        console.log(res)
-        var result = res.result.data;
-        var temArr = [];
-        for (var i = 0; i < result.length; i++) {
-          var tem = {};
-          tem.id = result[i]._id;
-          tem.name = result[i].name;
-          tem.times = result[i].times;
-          tem.color = result[i].color;
-          console.log(tem);
-          temArr.push(tem);
+    return new Promise((resolve, reject) => {
+      wx.cloud.callFunction({
+        name: 'getEndTask',
+        data: {},
+        complete: res => {
+          var result = res.result.data;
+          var temArr = [];
+          for (var i = 0; i < result.length; i++) {
+            var tem = {};
+            tem.id = result[i]._id;
+            tem.name = result[i].name;
+            tem.times = result[i].times;
+            tem.color = result[i].color;
+            temArr.push(tem);
+          }
+          that.setData({
+            EndArr: temArr
+          });
+          resolve(temArr)
         }
-        that.setData({
-          GoonArr: temArr
-        });
-        console.log(that.data.GoonArr)
-      }
-    });
+      });
+    })
+
   },
   //获取正在进行中的任务
   getGoonTask: function (options) {
     var that = this;
+    return new Promise((resolve, reject) => {
+
     wx.cloud.callFunction({
       name: 'getGoonTask',
       data: {},
       complete: res => {
-        console.log(res)
         var result = res.result.data;
         var temArr = [];
         for(var i = 0; i < result.length; i++){
@@ -85,17 +84,22 @@ Page({
           tem.name = result[i].name;
           tem.times = result[i].times;
           tem.color = result[i].color;
-          console.log(tem);
           temArr.push(tem);
         }
         that.setData({
-          GoonArr : temArr
+          GoonArr:temArr
         });
-        console.log(that.data.GoonArr)
+        resolve(temArr)
       }
     });
+    })
   },
 
+  jumpTodetail: function (e) {
+    wx.navigateTo({
+      url: "./details/details?id=" + e.currentTarget.dataset.id
+    })
+    },
 
 
 
